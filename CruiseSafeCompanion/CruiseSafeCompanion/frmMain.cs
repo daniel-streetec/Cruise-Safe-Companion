@@ -7,13 +7,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO.Ports;
 
 namespace CruiseSafeCompanion
 {
     public partial class frmMain : Form
     {
         private CSC_File _currentFile;
-        private BindingSource _bsCurrentFile;
+
+        internal CSC_File CurrentFile { get => _currentFile;
+            set
+            {
+                _currentFile = value;
+                readValues();
+            }
+        }
+
+        private void readValues()
+        {
+            cbEnableLimiter.Checked = CurrentFile.EnableLimiter;
+            ncLimiterFront.Value = (decimal)CurrentFile.LimiterFront;
+            ncLimiterRear.Value = (decimal)CurrentFile.LimiterRear;
+
+            cbEnableHighPressureAlarm.Checked = CurrentFile.EnableHighBeep;
+            ncHighAlarmFront.Value = (decimal)CurrentFile.HighBeepFront;
+            ncHighAlarmRear.Value = (decimal)CurrentFile.HighBeepRear;
+
+            cbEnableLowPressureAlarm.Checked = CurrentFile.EnableLowBeep;
+            ncLowAlarmFront.Value = (decimal)CurrentFile.LowBeepFront;
+            ncHighAlarmRear.Value = (decimal)CurrentFile.LowBeepRear;
+
+            cbRiseOnStart.Checked = CurrentFile.RiseOnStart;
+        }
+
+        private void writeValues()
+        {
+            CurrentFile.EnableLimiter = cbEnableLimiter.Checked;
+            CurrentFile.LimiterFront = (double)ncLimiterFront.Value;
+            CurrentFile.LimiterRear = (double)ncLimiterRear.Value;
+
+            CurrentFile.EnableHighBeep = cbEnableHighPressureAlarm.Checked;
+            CurrentFile.HighBeepFront = (double)ncHighAlarmFront.Value;
+            CurrentFile.HighBeepRear = (double)ncHighAlarmRear.Value;
+
+            CurrentFile.EnableLowBeep = cbEnableLowPressureAlarm.Checked;
+            CurrentFile.LowBeepFront = (double)ncLowAlarmFront.Value;
+            CurrentFile.LowBeepRear = (double)ncHighAlarmRear.Value;
+
+            CurrentFile.RiseOnStart = cbRiseOnStart.Checked;
+        }
 
         public frmMain()
         {
@@ -46,11 +88,8 @@ namespace CruiseSafeCompanion
             if (lbVersionNo.Text != "")
                 lbVersionNo.Text = "V" + lbVersionNo.Text;
 
-            _currentFile = new CSC_File();
-            lbFileName.Text = _currentFile.FileName;
-            addDatabindings();
-
-            _bsCurrentFile.DataSource = _currentFile;
+            CurrentFile = new CSC_File();
+            lbFileName.Text = CurrentFile.FileName;
             getComPorts();
         }
 
@@ -72,30 +111,10 @@ namespace CruiseSafeCompanion
             }
         }
 
-        void addDatabindings()
-        {
-            _bsCurrentFile = new BindingSource { DataSource = typeof(CSC_File) };
-
-            cbEnableLimiter.DataBindings.Add("Checked", _bsCurrentFile, "EnableLimiter");
-            ncLimiterFront.DataBindings.Add("Value", _bsCurrentFile, "LimiterFront");
-            ncLimiterRear.DataBindings.Add("Value", _bsCurrentFile, "LimiterRear");
-
-            cbEnableHighPressureAlarm.DataBindings.Add("Checked", _bsCurrentFile, "EnableHighBeep");
-            ncHighAlarmFront.DataBindings.Add("Value", _bsCurrentFile, "HighBeepFront");
-            ncHighAlarmRear.DataBindings.Add("Value", _bsCurrentFile, "HighBeepRear");
-
-            cbEnableLowPressureAlarm.DataBindings.Add("Checked", _bsCurrentFile, "EnableLowBeep");
-            ncLowAlarmFront.DataBindings.Add("Value", _bsCurrentFile, "LowBeepFront");
-            ncLowAlarmRear.DataBindings.Add("Value", _bsCurrentFile, "LowBeepRear");
-
-            cbRiseOnStart.DataBindings.Add("Checked", _bsCurrentFile, "RiseOnStart");
-        }
-
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _currentFile = new CSC_File();
-            _bsCurrentFile.DataSource = _currentFile;
-            lbFileName.Text = _currentFile.FileName;
+            CurrentFile = new CSC_File();
+            lbFileName.Text = CurrentFile.FileName;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -106,29 +125,26 @@ namespace CruiseSafeCompanion
             OFD.Multiselect = false;
             if (OFD.ShowDialog() == DialogResult.OK)
             {
-                _currentFile = new CSC_File(OFD.FileName);
-                _bsCurrentFile.DataSource = _currentFile;
-                lbFileName.Text = _currentFile.FileName;
+                CurrentFile = new CSC_File(OFD.FileName);
+                lbFileName.Text = CurrentFile.FileName;
             }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _currentFile.FileName = "";
-            if (this.ActiveControl.DataBindings.Count > 0)
-                this.ActiveControl.DataBindings[0].WriteValue();
-            _currentFile.Save();
+            writeValues();
+            CurrentFile.FileName = "";
+            CurrentFile.Save();
 
-            lbFileName.Text = _currentFile.FileName;
+            lbFileName.Text = CurrentFile.FileName;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.ActiveControl.DataBindings.Count > 0)
-                this.ActiveControl.DataBindings[0].WriteValue();
-            _currentFile.Save();
+            writeValues();
+            CurrentFile.Save();
 
-            lbFileName.Text = _currentFile.FileName;
+            lbFileName.Text = CurrentFile.FileName;
         }
 
         void getComPorts()
@@ -186,6 +202,36 @@ namespace CruiseSafeCompanion
             else
             {
 
+            }
+        }
+
+        private void btUpload_Click(object sender, EventArgs e)
+        {
+            SerialPort SP = new SerialPort(cbComPorts.Text);
+            try
+            {
+                SP.BaudRate = 9600;
+                SP.DataReceived += SP_DataReceived;
+                SP.Open();
+                SP.WriteLine(CurrentFile.ToSerialString());
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        string sReceived = "";
+
+        private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            sReceived += ((SerialPort)sender).ReadExisting();
+
+            if(sReceived.Contains(Environment.NewLine))
+            {
+                MessageBox.Show(sReceived);
+                sReceived = "";
             }
         }
     }

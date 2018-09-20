@@ -194,6 +194,12 @@ namespace CruiseSafeCompanion
         #endregion
 
         #region functions
+        public void Load(string fileName)
+        {
+            _fileName = fileName;
+            _xDocument = XDocument.Load(fileName);
+        }
+
         public void Save()
         {
             if (_fileName == "")
@@ -214,6 +220,51 @@ namespace CruiseSafeCompanion
             {
                 ErrorHandler.Handle(ex);
             }
+        }
+
+        private const double barToPsi = 14.5038;
+
+        public string ToSerialString()
+        {
+            int psiLimiterFront = (int)Math.Round(LimiterFront * barToPsi, 0);
+            int psiLimiterRear = (int)Math.Round(LimiterRear * barToPsi, 0);
+
+            int psiHighBeepFront = (int)Math.Round(HighBeepFront * barToPsi, 0);
+            int psiHighBeepRear = (int)Math.Round(HighBeepRear * barToPsi, 0);
+
+            int psiLowBeepFront = (int)Math.Round(LowBeepFront * barToPsi, 0);
+            int psiLowBeepRear = (int)Math.Round(LowBeepRear * barToPsi, 0);
+
+            int enLimiter = (EnableLimiter ? 1 : 0);
+            int enHighBeep = (EnableHighBeep ? 1 : 0);
+            int enLowBeep = (EnableLowBeep ? 1 : 0);
+
+            string s = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}{4:X2}{5:X2}{6:X2}{7:X2}{8:X2}",
+                enLimiter,
+                psiLimiterFront,
+                psiLimiterRear,
+                enHighBeep,
+                psiHighBeepFront,
+                psiHighBeepRear,
+                enLowBeep,
+                psiLowBeepFront,
+                psiLowBeepRear);
+
+            s += s + string.Format("{0:X2}", calcChecksum(s));
+
+            return s;
+        }
+
+        private char calcChecksum(string s)
+        {
+            char checkSum = (char)0;
+
+            for(int i=0; i<s.Length; i++)
+            {
+                checkSum ^= s[i];
+            }
+
+            return checkSum;
         }
         #endregion
 

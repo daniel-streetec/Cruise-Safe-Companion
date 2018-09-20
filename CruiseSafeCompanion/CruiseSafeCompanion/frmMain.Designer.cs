@@ -41,9 +41,12 @@
             this.cbComPorts = new System.Windows.Forms.ToolStripComboBox();
             this.btRefresh = new System.Windows.Forms.ToolStripButton();
             this.btUpload = new System.Windows.Forms.ToolStripButton();
+            this.btCheckFirmware = new System.Windows.Forms.ToolStripButton();
             this.sStatus = new System.Windows.Forms.StatusStrip();
             this.lbVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbNewVersion = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbFile = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.gpPressureLimits = new System.Windows.Forms.GroupBox();
             this.cbEnableLimiter = new System.Windows.Forms.CheckBox();
             this.lbLimitInfo = new System.Windows.Forms.Label();
@@ -71,10 +74,7 @@
             this.lbYourDevice = new System.Windows.Forms.Label();
             this.lbVersionNo = new System.Windows.Forms.Label();
             this.lbFirmwareDBVersion = new System.Windows.Forms.Label();
-            this.btCheckFirmware = new System.Windows.Forms.ToolStripButton();
             this.cbRiseOnStart = new System.Windows.Forms.CheckBox();
-            this.lbFile = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lbFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.sTool.SuspendLayout();
             this.sStatus.SuspendLayout();
             this.gpPressureLimits.SuspendLayout();
@@ -194,6 +194,15 @@
             this.btUpload.Name = "btUpload";
             this.btUpload.Size = new System.Drawing.Size(65, 22);
             this.btUpload.Text = "Upload";
+            this.btUpload.Click += new System.EventHandler(this.btUpload_Click);
+            // 
+            // btCheckFirmware
+            // 
+            this.btCheckFirmware.Image = ((System.Drawing.Image)(resources.GetObject("btCheckFirmware.Image")));
+            this.btCheckFirmware.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btCheckFirmware.Name = "btCheckFirmware";
+            this.btCheckFirmware.Size = new System.Drawing.Size(60, 22);
+            this.btCheckFirmware.Text = "Check";
             // 
             // sStatus
             // 
@@ -219,6 +228,18 @@
             this.lbNewVersion.Name = "lbNewVersion";
             this.lbNewVersion.Size = new System.Drawing.Size(78, 17);
             this.lbNewVersion.Text = "(most recent)";
+            // 
+            // lbFile
+            // 
+            this.lbFile.Name = "lbFile";
+            this.lbFile.Size = new System.Drawing.Size(34, 17);
+            this.lbFile.Text = "| File:";
+            // 
+            // lbFileName
+            // 
+            this.lbFileName.Name = "lbFileName";
+            this.lbFileName.Size = new System.Drawing.Size(55, 17);
+            this.lbFileName.Text = "Filename";
             // 
             // gpPressureLimits
             // 
@@ -583,14 +604,6 @@
             this.lbFirmwareDBVersion.TabIndex = 0;
             this.lbFirmwareDBVersion.Text = "Online Version:";
             // 
-            // btCheckFirmware
-            // 
-            this.btCheckFirmware.Image = ((System.Drawing.Image)(resources.GetObject("btCheckFirmware.Image")));
-            this.btCheckFirmware.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btCheckFirmware.Name = "btCheckFirmware";
-            this.btCheckFirmware.Size = new System.Drawing.Size(60, 22);
-            this.btCheckFirmware.Text = "Check";
-            // 
             // cbRiseOnStart
             // 
             this.cbRiseOnStart.AutoSize = true;
@@ -601,18 +614,6 @@
             this.cbRiseOnStart.TabIndex = 22;
             this.cbRiseOnStart.Text = "Rise on start";
             this.cbRiseOnStart.UseVisualStyleBackColor = true;
-            // 
-            // lbFile
-            // 
-            this.lbFile.Name = "lbFile";
-            this.lbFile.Size = new System.Drawing.Size(34, 17);
-            this.lbFile.Text = "| File:";
-            // 
-            // lbFileName
-            // 
-            this.lbFileName.Name = "lbFileName";
-            this.lbFileName.Size = new System.Drawing.Size(55, 17);
-            this.lbFileName.Text = "Filename";
             // 
             // frmMain
             // 
