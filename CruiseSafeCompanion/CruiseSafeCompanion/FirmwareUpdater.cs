@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,6 +24,35 @@ namespace CruiseSafeCompanion
                 return (string)dtResult.Rows[0]["VERSION_NO"];
             else
                 return "";
+        }
+
+        public static string GetDeviceVersion(string portName)
+        {
+            try
+            {
+                SerialPort port = new SerialPort(portName);
+                port.BaudRate = 9600;
+                port.Open();
+
+                DateTime timeoutTime = DateTime.Now.AddSeconds(5);
+                string received = "";
+                port.WriteLine("<version?>");
+                while(received.Contains(Environment.NewLine) == false)
+                {
+                    if (DateTime.Now >= timeoutTime)
+                        throw new TimeoutException("Timeout while querying device version");
+
+                    received += port.ReadExisting();
+                }
+
+                port.Close();
+                return received;
+            }
+            catch(Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+                return "";
+            }
         }
 
         public void UpdateFirmware(string portName)
@@ -67,7 +97,7 @@ namespace CruiseSafeCompanion
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
                 UpdateComplete?.Invoke(new UpdateCompleteEventArgs("", "", false));
             }
         }

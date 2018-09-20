@@ -203,6 +203,7 @@
             this.btCheckFirmware.Name = "btCheckFirmware";
             this.btCheckFirmware.Size = new System.Drawing.Size(60, 22);
             this.btCheckFirmware.Text = "Check";
+            this.btCheckFirmware.Click += new System.EventHandler(this.btCheckFirmware_Click);
             // 
             // sStatus
             // 

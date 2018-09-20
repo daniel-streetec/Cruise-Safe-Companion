@@ -59,7 +59,7 @@ namespace CruiseSafeCompanion
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
                 UpdateComplete?.Invoke(new UpdateCompleteEventArgs("", "", false));
             }
         }

@@ -176,6 +176,9 @@ namespace CruiseSafeCompanion
         {
             if (cbComPorts.Text != "")
             {
+                btCheckFirmware.Enabled = false;
+                btUpload.Enabled = false;
+
                 btUpdateDevice.Text = "updating...";
                 btUpdateDevice.Enabled = false;
 
@@ -192,7 +195,9 @@ namespace CruiseSafeCompanion
             this.Invoke((MethodInvoker)delegate
             {
                 btUpdateDevice.Text = "Update";
+                btCheckFirmware.Enabled = true;
                 btUpdateDevice.Enabled = true;
+                btUpload.Enabled = true;
             });
 
             if (e.Success)
@@ -207,32 +212,42 @@ namespace CruiseSafeCompanion
 
         private void btUpload_Click(object sender, EventArgs e)
         {
-            SerialPort SP = new SerialPort(cbComPorts.Text);
-            try
+            if (cbComPorts.Text != "")
             {
-                SP.BaudRate = 9600;
-                SP.DataReceived += SP_DataReceived;
-                SP.Open();
-                SP.WriteLine(CurrentFile.ToSerialString());
+                btCheckFirmware.Enabled = false;
+                btUpdateDevice.Enabled = false;
+                btUpload.Enabled = false;
 
+                writeValues();
+                SettingsUploader uploader = new SettingsUploader(cbComPorts.Text, _currentFile);
+                uploader.Upload();
+
+                btCheckFirmware.Enabled = true;
+                btUpdateDevice.Enabled = true;
+                btUpload.Enabled = true;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            else
+                MessageBox.Show("Please select a ComPort first");
         }
 
-        string sReceived = "";
-
-        private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void btCheckFirmware_Click(object sender, EventArgs e)
         {
-            sReceived += ((SerialPort)sender).ReadExisting();
-
-            if(sReceived.Contains(Environment.NewLine))
+            if (cbComPorts.Text != "")
             {
-                MessageBox.Show(sReceived);
-                sReceived = "";
+                btCheckFirmware.Enabled = false;
+                btUpdateDevice.Enabled = false;
+                btUpload.Enabled = false;
+
+                string version = FirmwareUpdater.GetDeviceVersion(cbComPorts.Text);
+                if (version != "")
+                    lbDeviceVersion.Text = "V" + version.Replace("<VERSION>", "").Replace("</VERSION>", "");
+
+                btCheckFirmware.Enabled = true;
+                btUpdateDevice.Enabled = true;
+                btUpload.Enabled = true;
             }
+            else
+                MessageBox.Show("Please select a ComPort first");
         }
     }
 }
