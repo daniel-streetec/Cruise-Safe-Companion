@@ -9,26 +9,26 @@ using System.Windows.Forms;
 
 namespace CruiseSafeCompanion
 {
-    public class ApplicationUpdater
+    class FirmwareUpdater
     {
         public delegate void UpdateCompleteHandler(UpdateCompleteEventArgs e);
         public event UpdateCompleteHandler UpdateComplete;
 
-        /// <summary>
-        /// Check for newer versions of the windows application on the server
-        /// </summary>
-        /// <returns>if there is a newer version</returns>
-        public static bool CheckForNewerVersion()
+        private string _portName = "";
+
+        public static string CheckForCurrentFirmwareVersion()
         {
-            DataTable dtVersions = DBConnect.GetQueryResult(DBCommand.GetNewestWinVersionNo);
-            if (dtVersions != null)
-                return !((string)dtVersions.Rows[0]["VERSION_NO"] == Program.DB_VERSION_NO);
+            DataTable dtResult = DBConnect.GetQueryResult(DBCommand.GetNewestFirmVersionNo);
+            if (dtResult != null)
+                return (string)dtResult.Rows[0]["VERSION_NO"];
             else
-                return false;
+                return "";
         }
 
-        public void UpdateSoftware()
+        public void UpdateFirmware(string portName)
         {
+            _portName = portName;
+
             Thread T = new Thread(new ThreadStart(T_WORK));
             T.SetApartmentState(ApartmentState.STA);
             T.Name = "CruiseSafe Updater";
@@ -40,7 +40,7 @@ namespace CruiseSafeCompanion
         {
             try
             {
-                DataTable dtResult = DBConnect.GetQueryResult(DBCommand.GetNewestWinVersion);
+                DataTable dtResult = DBConnect.GetQueryResult(DBCommand.GetNewestFirmware);
                 if (dtResult != null)
                 {
                     byte[] DATA = (byte[])dtResult.Rows[0]["PAYLOAD"];
@@ -48,11 +48,19 @@ namespace CruiseSafeCompanion
                     string CHANGELOG = (string)dtResult.Rows[0]["CHANGELOG"];
                     DateTime RELEASE_DATE = (DateTime)dtResult.Rows[0]["DATE_OF_RELEASE"];
 
-                    string tmpFileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".zip";
+                    string tmpFileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".hex";
 
                     System.IO.File.WriteAllBytes(tmpFileName, DATA);
 
-                    System.Diagnostics.Process.Start(tmpFileName);
+                    var Uploader = new ArduinoUploader.ArduinoSketchUploader(
+                        new ArduinoUploader.ArduinoSketchUploaderOptions
+                        {
+                            FileName = tmpFileName,
+                            PortName = _portName,
+                            ArduinoModel = ArduinoUploader.Hardware.ArduinoModel.NanoR3
+                        });
+
+                    Uploader.UploadSketch();
 
                     UpdateComplete?.Invoke(new UpdateCompleteEventArgs(CHANGELOG, VERSION, true));
                 }
@@ -70,8 +78,8 @@ namespace CruiseSafeCompanion
             private string _version;
             private bool _success;
 
-            public string Changelog { get => _changelog; }
-            public string Version { get => _version; }
+            public string Changelog { get => _changelog;}
+            public string Version { get => _version;}
             public bool Success { get => _success; }
 
             public UpdateCompleteEventArgs(string changelog, string version, bool success)

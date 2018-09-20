@@ -17,5 +17,15 @@ namespace CruiseSafeCompanion
         /// SQL to get the newest version no. for devices firmware
         /// </summary>
         public static string GetNewestFirmVersionNo = "SELECT VERSION_NO FROM FIRM_VERSIONS ORDER BY DATE_OF_RELEASE DESC LIMIT 1";
+
+        /// <summary>
+        /// SQL to get the newest firmware
+        /// </summary>
+        public static string GetNewestFirmware = "SELECT * FROM FIRM_VERSIONS ORDER BY DATE_OF_RELEASE DESC LIMIT 1";
+
+        /// <summary>
+        /// SQL to get the newest software
+        /// </summary>
+        public static string GetNewestWinVersion = "SELECT * FROM WIN_VERSIONS ORDER BY DATE_OF_RELEASE DESC LIMIT 1";
     }
 }

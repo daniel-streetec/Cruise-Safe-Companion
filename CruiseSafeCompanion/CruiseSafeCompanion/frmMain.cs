@@ -19,8 +19,32 @@ namespace CruiseSafeCompanion
         {
             InitializeComponent();
 
+            if(Properties.Settings.Default.ChangeLogToShow != null && Properties.Settings.Default.ChangeLogToShow != "")
+            {
+                new frmChangelog(Properties.Settings.Default.ChangeLogToShow).ShowDialog();
+                Properties.Settings.Default.ChangeLogToShow = "";
+                Properties.Settings.Default.Save();
+            }
+
             lbVersion.Text = "Version: " + Program.DB_VERSION_NO;
-            lbNewVersion.Text = ApplicationUpdater.CheckForNewerVersion()? "(Update available!)" : "(Up to date)";
+            if (ApplicationUpdater.CheckForNewerVersion())
+            {
+                lbNewVersion.Text ="(Update available!)";
+                lbNewVersion.Enabled = true;
+                lbNewVersion.DoubleClickEnabled = true;
+                lbNewVersion.ToolTipText = "Double Click to update";
+                lbNewVersion.DoubleClick += LbNewVersion_DoubleClick;
+                lbNewVersion.BackColor = Color.Green;
+            }
+            else
+            {
+                lbNewVersion.Text = "(Up to date)";
+                lbNewVersion.Enabled = false;
+            }
+
+            lbVersionNo.Text = FirmwareUpdater.CheckForCurrentFirmwareVersion();
+            if (lbVersionNo.Text != "")
+                lbVersionNo.Text = "V" + lbVersionNo.Text;
 
             _currentFile = new CSC_File();
             addDatabindings();
@@ -29,26 +53,39 @@ namespace CruiseSafeCompanion
             getComPorts();
         }
 
+        private void LbNewVersion_DoubleClick(object sender, EventArgs e)
+        {
+            lbNewVersion.Enabled = false;
+            ApplicationUpdater Updater = new ApplicationUpdater();
+            Updater.UpdateComplete += Updater_UpdateComplete1;
+            Updater.UpdateSoftware();
+        }
+
+        private void Updater_UpdateComplete1(ApplicationUpdater.UpdateCompleteEventArgs e)
+        {
+            if(e.Success)
+            {
+                Properties.Settings.Default.ChangeLogToShow = e.Changelog;
+                Properties.Settings.Default.Save();
+                Application.Exit();
+            }
+        }
+
         void addDatabindings()
         {
             _bsCurrentFile = new BindingSource { DataSource = typeof(CSC_File) };
 
-            ncLimitFL.DataBindings.Add("Value", _bsCurrentFile, "LimitFL");
-            ncLimitFR.DataBindings.Add("Value", _bsCurrentFile, "LimitFR");
-            ncLimitRL.DataBindings.Add("Value", _bsCurrentFile, "LimitRL");
-            ncLimitRR.DataBindings.Add("Value", _bsCurrentFile, "LimitRR");
+            cbEnableLimiter.DataBindings.Add("Checked", _bsCurrentFile, "EnableLimiter");
+            ncLimiterFront.DataBindings.Add("Value", _bsCurrentFile, "LimiterFront");
+            ncLimiterRear.DataBindings.Add("Value", _bsCurrentFile, "LimiterRear");
 
             cbEnableHighPressureAlarm.DataBindings.Add("Checked", _bsCurrentFile, "EnableHighBeep");
-            ncHighAlarmFL.DataBindings.Add("Value", _bsCurrentFile, "HighBeepFL");
-            ncHighAlarmFR.DataBindings.Add("Value", _bsCurrentFile, "HighBeepFR");
-            ncHighAlarmRL.DataBindings.Add("Value", _bsCurrentFile, "HighBeepRL");
-            ncHighAlarmRR.DataBindings.Add("Value", _bsCurrentFile, "HighBeepRR");
+            ncHighAlarmFront.DataBindings.Add("Value", _bsCurrentFile, "HighBeepFront");
+            ncHighAlarmRear.DataBindings.Add("Value", _bsCurrentFile, "HighBeepRear");
 
             cbEnableLowPressureAlarm.DataBindings.Add("Checked", _bsCurrentFile, "EnableLowBeep");
-            ncLowAlarmFL.DataBindings.Add("Value", _bsCurrentFile, "LowBeepFL");
-            ncLowAlarmFR.DataBindings.Add("Value", _bsCurrentFile, "LowBeepFR");
-            ncLowAlarmRL.DataBindings.Add("Value", _bsCurrentFile, "LowBeepRL");
-            ncLowAlarmRR.DataBindings.Add("Value", _bsCurrentFile, "LowBeepRR");
+            ncLowAlarmFront.DataBindings.Add("Value", _bsCurrentFile, "LowBeepFront");
+            ncLowAlarmRear.DataBindings.Add("Value", _bsCurrentFile, "LowBeepRear");
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -97,6 +134,50 @@ namespace CruiseSafeCompanion
         private void btRefresh_Click(object sender, EventArgs e)
         {
             getComPorts();
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboboxGotFocus(object sender, EventArgs e)
+        {
+            NumericUpDown nc = sender as NumericUpDown;
+            nc?.Select(0, nc.Text.Length);
+        }
+
+        private void btUpdateDevice_Click(object sender, EventArgs e)
+        {
+            if (cbComPorts.Text != "")
+            {
+                btUpdateDevice.Text = "updating...";
+                btUpdateDevice.Enabled = false;
+
+                FirmwareUpdater Updater = new FirmwareUpdater();
+                Updater.UpdateComplete += Updater_UpdateComplete;
+                Updater.UpdateFirmware(cbComPorts.Text);
+            }
+            else
+                MessageBox.Show("Please select a ComPort first");
+        }
+
+        private void Updater_UpdateComplete(FirmwareUpdater.UpdateCompleteEventArgs e)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                btUpdateDevice.Text = "Update";
+                btUpdateDevice.Enabled = true;
+            });
+
+            if (e.Success)
+            {
+                new frmChangelog(e.Changelog).ShowDialog();
+            }
+            else
+            {
+
+            }
         }
     }
 }

@@ -33,51 +33,39 @@ namespace CruiseSafeCompanion
         }
 
         #region pressure limiter
-        public double LimitFL
+        public bool EnableLimiter
         {
             get
             {
-                return _xDocument.Element("FILE").Element("LIMITS").Elements("FL").FirstOrDefault().Value.ToDoubleSafe();
+                return _xDocument.Element("FILE").Element("LIMITS").Elements("ENABLE").FirstOrDefault().Value.ToBoolSafe();
             }
             set
             {
-                _xDocument.Element("FILE").Element("LIMITS").Elements("FL").FirstOrDefault().Value = value.ToString("0.0");
+                _xDocument.Element("FILE").Element("LIMITS").Elements("ENABLE").FirstOrDefault().Value = value.ToString();
             }
         }
 
-        public double LimitFR
+        public double LimiterFront
         {
             get
             {
-                return _xDocument.Element("FILE").Element("LIMITS").Elements("FR").FirstOrDefault().Value.ToDoubleSafe();
+                return _xDocument.Element("FILE").Element("LIMITS").Elements("FRONT").FirstOrDefault().Value.ToDoubleSafe();
             }
             set
             {
-                _xDocument.Element("FILE").Element("LIMITS").Elements("FR").FirstOrDefault().Value = value.ToString("0.0");
+                _xDocument.Element("FILE").Element("LIMITS").Elements("FRONT").FirstOrDefault().Value = value.ToString("0.0");
             }
         }
 
-        public double LimitRL
+        public double LimiterRear
         {
             get
             {
-                return _xDocument.Element("FILE").Element("LIMITS").Elements("RL").FirstOrDefault().Value.ToDoubleSafe();
+                return _xDocument.Element("FILE").Element("LIMITS").Elements("REAR").FirstOrDefault().Value.ToDoubleSafe();
             }
             set
             {
-                _xDocument.Element("FILE").Element("LIMITS").Elements("RL").FirstOrDefault().Value = value.ToString("0.0");
-            }
-        }
-
-        public double LimitRR
-        {
-            get
-            {
-                return _xDocument.Element("FILE").Element("LIMITS").Elements("RR").FirstOrDefault().Value.ToDoubleSafe();
-            }
-            set
-            {
-                _xDocument.Element("FILE").Element("LIMITS").Elements("RR").FirstOrDefault().Value = value.ToString("0.0");
+                _xDocument.Element("FILE").Element("LIMITS").Elements("REAR").FirstOrDefault().Value = value.ToString("0.0");
             }
         }
         #endregion
@@ -95,57 +83,33 @@ namespace CruiseSafeCompanion
             }
         }
 
-        public double HighBeepFL
+        public double HighBeepFront
         {
             get
             {
-                return _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("FL").FirstOrDefault().Value.ToDoubleSafe();
+                return _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("FRONT").FirstOrDefault().Value.ToDoubleSafe();
             }
             set
             {
-                _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("FL").FirstOrDefault().Value = value.ToString("0.0");
+                _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("FRONT").FirstOrDefault().Value = value.ToString("0.0");
             }
         }
 
-        public double HighBeepFR
+        public double HighBeepRear
         {
             get
             {
-                return _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("FR").FirstOrDefault().Value.ToDoubleSafe();
+                return _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("REAR").FirstOrDefault().Value.ToDoubleSafe();
             }
             set
             {
-                _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("FR").FirstOrDefault().Value = value.ToString("0.0");
-            }
-        }
-
-        public double HighBeepRL
-        {
-            get
-            {
-                return _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("RL").FirstOrDefault().Value.ToDoubleSafe();
-            }
-            set
-            {
-                _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("RL").FirstOrDefault().Value = value.ToString("0.0");
-            }
-        }
-
-        public double HighBeepRR
-        {
-            get
-            {
-                return _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("RR").FirstOrDefault().Value.ToDoubleSafe();
-            }
-            set
-            {
-                _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("RR").FirstOrDefault().Value = value.ToString("0.0");
+                _xDocument.Element("FILE").Element("BEEP_HIGH").Elements("REAR").FirstOrDefault().Value = value.ToString("0.0");
             }
         }
         #endregion
 
         #region LOW pressure beep
-        public bool EnableLOWBeep
+        public bool EnableLowBeep
         {
             get
             {
@@ -157,51 +121,27 @@ namespace CruiseSafeCompanion
             }
         }
 
-        public double LOWBeepFL
+        public double LowBeepFront
         {
             get
             {
-                return _xDocument.Element("FILE").Element("BEEP_LOW").Elements("FL").FirstOrDefault().Value.ToDoubleSafe();
+                return _xDocument.Element("FILE").Element("BEEP_LOW").Elements("FRONT").FirstOrDefault().Value.ToDoubleSafe();
             }
             set
             {
-                _xDocument.Element("FILE").Element("BEEP_LOW").Elements("FL").FirstOrDefault().Value = value.ToString("0.0");
+                _xDocument.Element("FILE").Element("BEEP_LOW").Elements("FRONT").FirstOrDefault().Value = value.ToString("0.0");
             }
         }
 
-        public double LowBeepFR
+        public double LowBeepRear
         {
             get
             {
-                return _xDocument.Element("FILE").Element("BEEP_LOW").Elements("FR").FirstOrDefault().Value.ToDoubleSafe();
+                return _xDocument.Element("FILE").Element("BEEP_LOW").Elements("REAR").FirstOrDefault().Value.ToDoubleSafe();
             }
             set
             {
-                _xDocument.Element("FILE").Element("BEEP_LOW").Elements("FR").FirstOrDefault().Value = value.ToString("0.0");
-            }
-        }
-
-        public double LowBeepRL
-        {
-            get
-            {
-                return _xDocument.Element("FILE").Element("BEEP_LOW").Elements("RL").FirstOrDefault().Value.ToDoubleSafe();
-            }
-            set
-            {
-                _xDocument.Element("FILE").Element("BEEP_LOW").Elements("RL").FirstOrDefault().Value = value.ToString("0.0");
-            }
-        }
-
-        public double LowBeepRR
-        {
-            get
-            {
-                return _xDocument.Element("FILE").Element("BEEP_LOW").Elements("RR").FirstOrDefault().Value.ToDoubleSafe();
-            }
-            set
-            {
-                _xDocument.Element("FILE").Element("BEEP_LOW").Elements("RR").FirstOrDefault().Value = value.ToString("0.0");
+                _xDocument.Element("FILE").Element("BEEP_LOW").Elements("REAR").FirstOrDefault().Value = value.ToString("0.0");
             }
         }
         #endregion
@@ -214,22 +154,17 @@ namespace CruiseSafeCompanion
             _xDocument = new XDocument(
                 new XElement("FILE",
                     new XElement("LIMITS",
-                        new XElement("FL", 0.0),
-                        new XElement("FR", 0.0),
-                        new XElement("RR", 0.0),
-                        new XElement("RL", 0.0)),
+                        new XElement("ENABLE", false),
+                        new XElement("FRONT", 0.0),
+                        new XElement("REAR", 0.0)),
                     new XElement("BEEP_HIGH",
                         new XElement("ENABLE", false),
-                        new XElement("FL", 0.0),
-                        new XElement("FR", 0.0),
-                        new XElement("RR", 0.0),
-                        new XElement("RL", 0.0)),
+                        new XElement("FRONT", 0.0),
+                        new XElement("REAR", 0.0)),
                     new XElement("BEEP_LOW",
                         new XElement("ENABLE", false),
-                        new XElement("FL", 0.0),
-                        new XElement("FR", 0.0),
-                        new XElement("RR", 0.0),
-                        new XElement("RL", 0.0)))
+                        new XElement("FRONT", 0.0),
+                        new XElement("REAR", 0.0)))
                 );
         }
 
