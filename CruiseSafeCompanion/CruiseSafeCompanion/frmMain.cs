@@ -47,6 +47,7 @@ namespace CruiseSafeCompanion
                 lbVersionNo.Text = "V" + lbVersionNo.Text;
 
             _currentFile = new CSC_File();
+            lbFileName.Text = _currentFile.FileName;
             addDatabindings();
 
             _bsCurrentFile.DataSource = _currentFile;
@@ -86,12 +87,15 @@ namespace CruiseSafeCompanion
             cbEnableLowPressureAlarm.DataBindings.Add("Checked", _bsCurrentFile, "EnableLowBeep");
             ncLowAlarmFront.DataBindings.Add("Value", _bsCurrentFile, "LowBeepFront");
             ncLowAlarmRear.DataBindings.Add("Value", _bsCurrentFile, "LowBeepRear");
+
+            cbRiseOnStart.DataBindings.Add("Checked", _bsCurrentFile, "RiseOnStart");
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _currentFile = new CSC_File();
             _bsCurrentFile.DataSource = _currentFile;
+            lbFileName.Text = _currentFile.FileName;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -104,6 +108,7 @@ namespace CruiseSafeCompanion
             {
                 _currentFile = new CSC_File(OFD.FileName);
                 _bsCurrentFile.DataSource = _currentFile;
+                lbFileName.Text = _currentFile.FileName;
             }
         }
 
@@ -113,6 +118,8 @@ namespace CruiseSafeCompanion
             if (this.ActiveControl.DataBindings.Count > 0)
                 this.ActiveControl.DataBindings[0].WriteValue();
             _currentFile.Save();
+
+            lbFileName.Text = _currentFile.FileName;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -120,6 +127,8 @@ namespace CruiseSafeCompanion
             if (this.ActiveControl.DataBindings.Count > 0)
                 this.ActiveControl.DataBindings[0].WriteValue();
             _currentFile.Save();
+
+            lbFileName.Text = _currentFile.FileName;
         }
 
         void getComPorts()

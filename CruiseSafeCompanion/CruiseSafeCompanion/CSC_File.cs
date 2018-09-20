@@ -145,7 +145,17 @@ namespace CruiseSafeCompanion
             }
         }
         #endregion
-
+        public bool RiseOnStart
+        {
+            get
+            {
+                return _xDocument.Element("FILE").Elements("RISE_ON_START").FirstOrDefault().Value.ToBoolSafe();
+            }
+            set
+            {
+                _xDocument.Element("FILE").Elements("RISE_ON_START").FirstOrDefault().Value = value.ToString();
+            }
+        }
         #endregion
 
         #region constructors
@@ -164,7 +174,8 @@ namespace CruiseSafeCompanion
                     new XElement("BEEP_LOW",
                         new XElement("ENABLE", false),
                         new XElement("FRONT", 0.0),
-                        new XElement("REAR", 0.0)))
+                        new XElement("REAR", 0.0)),
+                    new XElement("RISE_ON_START", false))
                 );
         }
 

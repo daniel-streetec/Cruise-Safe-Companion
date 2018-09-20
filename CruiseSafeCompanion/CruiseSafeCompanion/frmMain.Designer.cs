@@ -66,11 +66,15 @@
             this.label10 = new System.Windows.Forms.Label();
             this.ncHighAlarmFront = new System.Windows.Forms.NumericUpDown();
             this.gpFirmware = new System.Windows.Forms.GroupBox();
+            this.btUpdateDevice = new System.Windows.Forms.Button();
+            this.lbDeviceVersion = new System.Windows.Forms.Label();
+            this.lbYourDevice = new System.Windows.Forms.Label();
             this.lbVersionNo = new System.Windows.Forms.Label();
             this.lbFirmwareDBVersion = new System.Windows.Forms.Label();
-            this.lbYourDevice = new System.Windows.Forms.Label();
-            this.lbDeviceVersion = new System.Windows.Forms.Label();
-            this.btUpdateDevice = new System.Windows.Forms.Button();
+            this.btCheckFirmware = new System.Windows.Forms.ToolStripButton();
+            this.cbRiseOnStart = new System.Windows.Forms.CheckBox();
+            this.lbFile = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.sTool.SuspendLayout();
             this.sStatus.SuspendLayout();
             this.gpPressureLimits.SuspendLayout();
@@ -94,7 +98,8 @@
             this.lbPort,
             this.cbComPorts,
             this.btRefresh,
-            this.btUpload});
+            this.btUpload,
+            this.btCheckFirmware});
             this.sTool.Location = new System.Drawing.Point(0, 0);
             this.sTool.Name = "sTool";
             this.sTool.Size = new System.Drawing.Size(451, 25);
@@ -194,7 +199,9 @@
             // 
             this.sStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbVersion,
-            this.lbNewVersion});
+            this.lbNewVersion,
+            this.lbFile,
+            this.lbFileName});
             this.sStatus.Location = new System.Drawing.Point(0, 428);
             this.sStatus.Name = "sStatus";
             this.sStatus.Size = new System.Drawing.Size(451, 22);
@@ -520,10 +527,41 @@
             this.gpFirmware.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gpFirmware.Location = new System.Drawing.Point(229, 28);
             this.gpFirmware.Name = "gpFirmware";
-            this.gpFirmware.Size = new System.Drawing.Size(211, 191);
+            this.gpFirmware.Size = new System.Drawing.Size(211, 159);
             this.gpFirmware.TabIndex = 14;
             this.gpFirmware.TabStop = false;
             this.gpFirmware.Text = "CC3.0 Firmware";
+            // 
+            // btUpdateDevice
+            // 
+            this.btUpdateDevice.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUpdateDevice.Location = new System.Drawing.Point(6, 88);
+            this.btUpdateDevice.Name = "btUpdateDevice";
+            this.btUpdateDevice.Size = new System.Drawing.Size(199, 38);
+            this.btUpdateDevice.TabIndex = 4;
+            this.btUpdateDevice.Text = "Update";
+            this.btUpdateDevice.UseVisualStyleBackColor = true;
+            this.btUpdateDevice.Click += new System.EventHandler(this.btUpdateDevice_Click);
+            // 
+            // lbDeviceVersion
+            // 
+            this.lbDeviceVersion.AutoSize = true;
+            this.lbDeviceVersion.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDeviceVersion.Location = new System.Drawing.Point(131, 66);
+            this.lbDeviceVersion.Name = "lbDeviceVersion";
+            this.lbDeviceVersion.Size = new System.Drawing.Size(15, 19);
+            this.lbDeviceVersion.TabIndex = 3;
+            this.lbDeviceVersion.Text = "-";
+            // 
+            // lbYourDevice
+            // 
+            this.lbYourDevice.AutoSize = true;
+            this.lbYourDevice.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbYourDevice.Location = new System.Drawing.Point(25, 66);
+            this.lbYourDevice.Name = "lbYourDevice";
+            this.lbYourDevice.Size = new System.Drawing.Size(100, 19);
+            this.lbYourDevice.TabIndex = 2;
+            this.lbYourDevice.Text = "Your Device:";
             // 
             // lbVersionNo
             // 
@@ -545,42 +583,43 @@
             this.lbFirmwareDBVersion.TabIndex = 0;
             this.lbFirmwareDBVersion.Text = "Online Version:";
             // 
-            // lbYourDevice
+            // btCheckFirmware
             // 
-            this.lbYourDevice.AutoSize = true;
-            this.lbYourDevice.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbYourDevice.Location = new System.Drawing.Point(25, 66);
-            this.lbYourDevice.Name = "lbYourDevice";
-            this.lbYourDevice.Size = new System.Drawing.Size(100, 19);
-            this.lbYourDevice.TabIndex = 2;
-            this.lbYourDevice.Text = "Your Device:";
+            this.btCheckFirmware.Image = ((System.Drawing.Image)(resources.GetObject("btCheckFirmware.Image")));
+            this.btCheckFirmware.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btCheckFirmware.Name = "btCheckFirmware";
+            this.btCheckFirmware.Size = new System.Drawing.Size(60, 22);
+            this.btCheckFirmware.Text = "Check";
             // 
-            // lbDeviceVersion
+            // cbRiseOnStart
             // 
-            this.lbDeviceVersion.AutoSize = true;
-            this.lbDeviceVersion.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDeviceVersion.Location = new System.Drawing.Point(131, 66);
-            this.lbDeviceVersion.Name = "lbDeviceVersion";
-            this.lbDeviceVersion.Size = new System.Drawing.Size(15, 19);
-            this.lbDeviceVersion.TabIndex = 3;
-            this.lbDeviceVersion.Text = "-";
+            this.cbRiseOnStart.AutoSize = true;
+            this.cbRiseOnStart.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbRiseOnStart.Location = new System.Drawing.Point(239, 193);
+            this.cbRiseOnStart.Name = "cbRiseOnStart";
+            this.cbRiseOnStart.Size = new System.Drawing.Size(116, 23);
+            this.cbRiseOnStart.TabIndex = 22;
+            this.cbRiseOnStart.Text = "Rise on start";
+            this.cbRiseOnStart.UseVisualStyleBackColor = true;
             // 
-            // btUpdateDevice
+            // lbFile
             // 
-            this.btUpdateDevice.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btUpdateDevice.Location = new System.Drawing.Point(6, 88);
-            this.btUpdateDevice.Name = "btUpdateDevice";
-            this.btUpdateDevice.Size = new System.Drawing.Size(199, 38);
-            this.btUpdateDevice.TabIndex = 4;
-            this.btUpdateDevice.Text = "Update";
-            this.btUpdateDevice.UseVisualStyleBackColor = true;
-            this.btUpdateDevice.Click += new System.EventHandler(this.btUpdateDevice_Click);
+            this.lbFile.Name = "lbFile";
+            this.lbFile.Size = new System.Drawing.Size(34, 17);
+            this.lbFile.Text = "| File:";
+            // 
+            // lbFileName
+            // 
+            this.lbFileName.Name = "lbFileName";
+            this.lbFileName.Size = new System.Drawing.Size(55, 17);
+            this.lbFileName.Text = "Filename";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 450);
+            this.Controls.Add(this.cbRiseOnStart);
             this.Controls.Add(this.gpFirmware);
             this.Controls.Add(this.gpHighPressureAlarm);
             this.Controls.Add(this.gpLowPressureBeep);
@@ -662,6 +701,10 @@
         private System.Windows.Forms.Button btUpdateDevice;
         private System.Windows.Forms.Label lbDeviceVersion;
         private System.Windows.Forms.Label lbYourDevice;
+        private System.Windows.Forms.ToolStripButton btCheckFirmware;
+        private System.Windows.Forms.CheckBox cbRiseOnStart;
+        private System.Windows.Forms.ToolStripStatusLabel lbFile;
+        private System.Windows.Forms.ToolStripStatusLabel lbFileName;
     }
 }
 
