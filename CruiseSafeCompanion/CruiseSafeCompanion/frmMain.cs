@@ -35,7 +35,7 @@ namespace CruiseSafeCompanion
 
             cbEnableLowPressureAlarm.Checked = CurrentFile.EnableLowBeep;
             ncLowAlarmFront.Value = (decimal)CurrentFile.LowBeepFront;
-            ncHighAlarmRear.Value = (decimal)CurrentFile.LowBeepRear;
+            ncLowAlarmRear.Value = (decimal)CurrentFile.LowBeepRear;
 
             cbRiseOnStart.Checked = CurrentFile.RiseOnStart;
         }
@@ -52,7 +52,7 @@ namespace CruiseSafeCompanion
 
             CurrentFile.EnableLowBeep = cbEnableLowPressureAlarm.Checked;
             CurrentFile.LowBeepFront = (double)ncLowAlarmFront.Value;
-            CurrentFile.LowBeepRear = (double)ncHighAlarmRear.Value;
+            CurrentFile.LowBeepRear = (double)ncLowAlarmRear.Value;
 
             CurrentFile.RiseOnStart = cbRiseOnStart.Checked;
         }
