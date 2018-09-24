@@ -47,7 +47,10 @@ namespace CruiseSafeCompanion
             System.Threading.Thread.Sleep(100);
             _serialDataReceived += _port.ReadExisting();
 
-            System.Windows.Forms.MessageBox.Show(_serialDataReceived);
+            if (_serialDataReceived.Contains("ACK"))
+                System.Windows.Forms.MessageBox.Show("Upload erfolgreich!");
+            else
+                System.Windows.Forms.MessageBox.Show("Upload fehlgeschlagen!");
             _port.Close();
         }
     }

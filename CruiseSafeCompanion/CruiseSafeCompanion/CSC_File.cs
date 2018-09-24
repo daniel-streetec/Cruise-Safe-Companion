@@ -222,7 +222,7 @@ namespace CruiseSafeCompanion
             }
         }
 
-        private const double barToPsi = 14.5038;
+        public const double barToPsi = 14.5038;
 
         public string ToSerialString()
         {

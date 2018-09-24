@@ -40,7 +40,7 @@ namespace CruiseSafeCompanion
                 while(received.Contains(Environment.NewLine) == false)
                 {
                     if (DateTime.Now >= timeoutTime)
-                        throw new TimeoutException("Timeout while querying device version");
+                        throw new TimeoutException("Timeout während der Versionsanfrage");
 
                     received += port.ReadExisting();
                 }
@@ -52,6 +52,65 @@ namespace CruiseSafeCompanion
             {
                 ErrorHandler.Handle(ex);
                 return "";
+            }
+        }
+
+        public static string GetDeviceConfig(string portName)
+        {
+            try
+            {
+                SerialPort port = new SerialPort(portName);
+                port.BaudRate = 9600;
+                port.Open();
+
+                DateTime timeoutTime = DateTime.Now.AddSeconds(5);
+                string received = "";
+                port.WriteLine("<config?>");
+                while (received.Contains(Environment.NewLine) == false)
+                {
+                    if (DateTime.Now >= timeoutTime)
+                        throw new TimeoutException("Timeout während der Versionsanfrage");
+
+                    received += port.ReadExisting();
+                }
+
+                port.Close();
+                return received;
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+                return "";
+            }
+        }
+
+        public static void PerformFactoryReset(string portName)
+        {
+            try
+            {
+                SerialPort port = new SerialPort(portName);
+                port.BaudRate = 9600;
+                port.Open();
+
+                DateTime timeoutTime = DateTime.Now.AddSeconds(5);
+                string received = "";
+                port.WriteLine("<reset>");
+                while (received.Contains(Environment.NewLine) == false)
+                {
+                    if (DateTime.Now >= timeoutTime)
+                        throw new TimeoutException("Timeout während des Werksresets");
+
+                    received += port.ReadExisting();
+                }
+
+                port.Close();
+
+                if (received.Contains("ACK"))
+                    MessageBox.Show("Werksreset erfolgreich!");
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
             }
         }
 

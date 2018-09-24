@@ -71,16 +71,17 @@ namespace CruiseSafeCompanion
             lbVersion.Text = "Version: " + Program.DB_VERSION_NO;
             if (ApplicationUpdater.CheckForNewerVersion())
             {
-                lbNewVersion.Text ="(Update available!)";
+                lbNewVersion.Text ="(Update verfügbar!)";
                 lbNewVersion.Enabled = true;
                 lbNewVersion.DoubleClickEnabled = true;
-                lbNewVersion.ToolTipText = "Double Click to update";
+                lbNewVersion.ToolTipText = "Doppelclick zum Updaten!";
                 lbNewVersion.DoubleClick += LbNewVersion_DoubleClick;
+                lbNewVersion.Click += LbNewVersion_DoubleClick;
                 lbNewVersion.BackColor = Color.Green;
             }
             else
             {
-                lbNewVersion.Text = "(Up to date)";
+                lbNewVersion.Text = "(aktuell)";
                 lbNewVersion.Enabled = false;
             }
 
@@ -176,8 +177,13 @@ namespace CruiseSafeCompanion
         {
             if (cbComPorts.Text != "")
             {
+                MessageBox.Show("Bitte schalten Sie während des Updatevorganges den PC nicht aus, " +
+                    "schließen Sie nicht die Software und trennen Sie das Gerät nicht vom PC!\r\n\r\n" +
+                    "Es können sonst irreparable Schäden am Gerät entstehen.");
+
                 btCheckFirmware.Enabled = false;
                 btUpload.Enabled = false;
+                btFactoryReset.Enabled = false;
 
                 btUpdateDevice.Text = "updating...";
                 btUpdateDevice.Enabled = false;
@@ -187,7 +193,7 @@ namespace CruiseSafeCompanion
                 Updater.UpdateFirmware(cbComPorts.Text);
             }
             else
-                MessageBox.Show("Please select a ComPort first");
+                MessageBox.Show("Bitte zuerst einen Port auswählen!");
         }
 
         private void Updater_UpdateComplete(FirmwareUpdater.UpdateCompleteEventArgs e)
@@ -198,6 +204,7 @@ namespace CruiseSafeCompanion
                 btCheckFirmware.Enabled = true;
                 btUpdateDevice.Enabled = true;
                 btUpload.Enabled = true;
+                btFactoryReset.Enabled = true;
             });
 
             if (e.Success)
@@ -217,6 +224,7 @@ namespace CruiseSafeCompanion
                 btCheckFirmware.Enabled = false;
                 btUpdateDevice.Enabled = false;
                 btUpload.Enabled = false;
+                btFactoryReset.Enabled = false;
 
                 writeValues();
                 SettingsUploader uploader = new SettingsUploader(cbComPorts.Text, _currentFile);
@@ -225,9 +233,10 @@ namespace CruiseSafeCompanion
                 btCheckFirmware.Enabled = true;
                 btUpdateDevice.Enabled = true;
                 btUpload.Enabled = true;
+                btFactoryReset.Enabled = true;
             }
             else
-                MessageBox.Show("Please select a ComPort first");
+                MessageBox.Show("Bitte zuerst einen Port auswählen!");
         }
 
         private void btCheckFirmware_Click(object sender, EventArgs e)
@@ -237,17 +246,67 @@ namespace CruiseSafeCompanion
                 btCheckFirmware.Enabled = false;
                 btUpdateDevice.Enabled = false;
                 btUpload.Enabled = false;
+                btFactoryReset.Enabled = false;
 
                 string version = FirmwareUpdater.GetDeviceVersion(cbComPorts.Text);
                 if (version != "")
                     lbDeviceVersion.Text = "V" + version.Replace("<VERSION>", "").Replace("</VERSION>", "");
 
+                string config = FirmwareUpdater.GetDeviceConfig(cbComPorts.Text);
+                config = config.ToUpper().Replace("<CONFIG>", "").Replace("</CONFIG>", "").Replace("\r\n","");
+                CurrentFile = new CSC_File();
+
+                string[] values = config.Split(':');
+                cbEnableLimiter.Checked = values[0] == "1";
+                ncLimiterFront.Value = HexPsiToDoubleBar(values[1]);
+                ncLimiterRear.Value = HexPsiToDoubleBar(values[2]);
+
+                cbEnableHighPressureAlarm.Checked = values[3] == "1";
+                ncHighAlarmFront.Value = HexPsiToDoubleBar(values[4]);
+                ncHighAlarmRear.Value = HexPsiToDoubleBar(values[5]);
+
+                cbEnableLowPressureAlarm.Checked = values[6] == "1";
+                ncLowAlarmFront.Value = HexPsiToDoubleBar(values[7]);
+                ncLowAlarmRear.Value = HexPsiToDoubleBar(values[8]);
+
+                cbRiseOnStart.Checked = values[9] == "1";
+
                 btCheckFirmware.Enabled = true;
                 btUpdateDevice.Enabled = true;
                 btUpload.Enabled = true;
+                btFactoryReset.Enabled = true;
             }
             else
-                MessageBox.Show("Please select a ComPort first");
+                MessageBox.Show("Bitte zuerst einen Port auswählen!");
+        }
+
+        private decimal HexPsiToDoubleBar(string hex)
+        {
+            int iValue = Convert.ToInt32(hex, 16);
+            decimal bar = (decimal)iValue * (decimal)(1.00 / CSC_File.barToPsi);
+            bar = Math.Round(bar, 1);
+
+            return bar;
+        }
+
+        private void btFactoryReset_Click(object sender, EventArgs e)
+        {
+            if (cbComPorts.Text != "")
+            {
+                btCheckFirmware.Enabled = false;
+                btUpdateDevice.Enabled = false;
+                btUpload.Enabled = false;
+                btFactoryReset.Enabled = false;
+
+                FirmwareUpdater.PerformFactoryReset(cbComPorts.Text);
+
+                btCheckFirmware.Enabled = true;
+                btUpdateDevice.Enabled = true;
+                btUpload.Enabled = true;
+                btFactoryReset.Enabled = true;
+            }
+            else
+                MessageBox.Show("Bitte zuerst einen Port auswählen!");
         }
     }
 }
