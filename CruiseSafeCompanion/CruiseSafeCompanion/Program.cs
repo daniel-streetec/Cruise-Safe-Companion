@@ -11,7 +11,7 @@ namespace CruiseSafeCompanion
         /// <summary>
         /// The version of the current development state
         /// </summary>
-        public const string DB_VERSION_NO = "1.0";
+        public const string DB_VERSION_NO = "1.1";
 
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.

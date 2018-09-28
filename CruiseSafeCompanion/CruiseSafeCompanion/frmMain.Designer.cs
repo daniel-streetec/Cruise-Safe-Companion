@@ -202,7 +202,7 @@
             this.btCheckFirmware.Image = ((System.Drawing.Image)(resources.GetObject("btCheckFirmware.Image")));
             this.btCheckFirmware.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btCheckFirmware.Name = "btCheckFirmware";
-            this.btCheckFirmware.Size = new System.Drawing.Size(60, 20);
+            this.btCheckFirmware.Size = new System.Drawing.Size(60, 22);
             this.btCheckFirmware.Text = "Check";
             this.btCheckFirmware.Click += new System.EventHandler(this.btCheckFirmware_Click);
             // 
@@ -277,7 +277,7 @@
             this.lbLimitInfo.Name = "lbLimitInfo";
             this.lbLimitInfo.Size = new System.Drawing.Size(199, 59);
             this.lbLimitInfo.TabIndex = 19;
-            this.lbLimitInfo.Text = "Minimaler Balgdruck für zugehörige Achse in Bar";
+            this.lbLimitInfo.Text = "Minimaler Balgdruck in [bar]";
             this.lbLimitInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbLimitRL
@@ -376,7 +376,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(199, 59);
             this.label1.TabIndex = 19;
-            this.label1.Text = "Untere Druckschwelle für Alarm für zugehörige Achse in Bar";
+            this.label1.Text = "Untere Druckschwelle für Alarm in [bar]";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
@@ -475,7 +475,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(199, 59);
             this.label6.TabIndex = 19;
-            this.label6.Text = "Obere Druckschwelle für Alarm für zugehörige Achse";
+            this.label6.Text = "Obere Druckschwelle für Alarm in [bar]";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label8
@@ -582,7 +582,7 @@
             // 
             this.lbDeviceVersion.AutoSize = true;
             this.lbDeviceVersion.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDeviceVersion.Location = new System.Drawing.Point(131, 66);
+            this.lbDeviceVersion.Location = new System.Drawing.Point(162, 66);
             this.lbDeviceVersion.Name = "lbDeviceVersion";
             this.lbDeviceVersion.Size = new System.Drawing.Size(15, 19);
             this.lbDeviceVersion.TabIndex = 3;
@@ -592,17 +592,17 @@
             // 
             this.lbYourDevice.AutoSize = true;
             this.lbYourDevice.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbYourDevice.Location = new System.Drawing.Point(35, 66);
+            this.lbYourDevice.Location = new System.Drawing.Point(6, 66);
             this.lbYourDevice.Name = "lbYourDevice";
-            this.lbYourDevice.Size = new System.Drawing.Size(90, 19);
+            this.lbYourDevice.Size = new System.Drawing.Size(150, 19);
             this.lbYourDevice.TabIndex = 2;
-            this.lbYourDevice.Text = "Dein Gerät:";
+            this.lbYourDevice.Text = "Dein CRUISE-SAFE:";
             // 
             // lbVersionNo
             // 
             this.lbVersionNo.AutoSize = true;
             this.lbVersionNo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbVersionNo.Location = new System.Drawing.Point(131, 38);
+            this.lbVersionNo.Location = new System.Drawing.Point(162, 38);
             this.lbVersionNo.Name = "lbVersionNo";
             this.lbVersionNo.Size = new System.Drawing.Size(42, 19);
             this.lbVersionNo.TabIndex = 1;
@@ -612,7 +612,7 @@
             // 
             this.lbFirmwareDBVersion.AutoSize = true;
             this.lbFirmwareDBVersion.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbFirmwareDBVersion.Location = new System.Drawing.Point(6, 38);
+            this.lbFirmwareDBVersion.Location = new System.Drawing.Point(37, 38);
             this.lbFirmwareDBVersion.Name = "lbFirmwareDBVersion";
             this.lbFirmwareDBVersion.Size = new System.Drawing.Size(119, 19);
             this.lbFirmwareDBVersion.TabIndex = 0;
