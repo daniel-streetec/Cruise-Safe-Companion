@@ -22,7 +22,7 @@ namespace CruiseSafeCompanion
         {
             DataTable dtVersions = DBConnect.GetQueryResult(DBCommand.GetNewestWinVersionNo);
             if (dtVersions != null)
-                return !((string)dtVersions.Rows[0]["VERSION_NO"] == Program.DB_VERSION_NO);
+                return !((string)dtVersions.Rows[0]["VERSION_NO"] == Program.CurrentVersion);
             else
                 return false;
         }

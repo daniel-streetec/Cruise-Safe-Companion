@@ -57,21 +57,13 @@ namespace CruiseSafeCompanion
             CurrentFile.RiseOnStart = cbRiseOnStart.Checked;
         }
 
-        public frmMain()
+        private void checkVersions()
         {
-            InitializeComponent();
 
-            if(Properties.Settings.Default.ChangeLogToShow != null && Properties.Settings.Default.ChangeLogToShow != "")
-            {
-                new frmChangelog(Properties.Settings.Default.ChangeLogToShow).ShowDialog();
-                Properties.Settings.Default.ChangeLogToShow = "";
-                Properties.Settings.Default.Save();
-            }
-
-            lbVersion.Text = "Version: " + Program.DB_VERSION_NO;
+            lbVersion.Text = "Version: " + Program.CurrentVersion;
             if (ApplicationUpdater.CheckForNewerVersion())
             {
-                lbNewVersion.Text ="(Update verfügbar!)";
+                lbNewVersion.Text = "(Update verfügbar!)";
                 lbNewVersion.Enabled = true;
                 lbNewVersion.DoubleClickEnabled = true;
                 lbNewVersion.ToolTipText = "Doppelclick zum Updaten!";
@@ -89,9 +81,31 @@ namespace CruiseSafeCompanion
             if (lbVersionNo.Text != "")
                 lbVersionNo.Text = "V" + lbVersionNo.Text;
 
+            
+            getComPorts();
+        }
+
+        public frmMain(string FileName)
+        {
+            InitializeComponent();
+            checkVersions();
+
+            CurrentFile = new CSC_File(FileName);
+            lbFileName.Text = CurrentFile.FileName;
+        }
+
+        public frmMain()
+        {
+            InitializeComponent();
+            checkVersions();
+            if(Properties.Settings.Default.ChangeLogToShow != null && Properties.Settings.Default.ChangeLogToShow != "")
+            {
+                new frmChangelog(Properties.Settings.Default.ChangeLogToShow).ShowDialog();
+                Properties.Settings.Default.ChangeLogToShow = "";
+                Properties.Settings.Default.Save();
+            }
             CurrentFile = new CSC_File();
             lbFileName.Text = CurrentFile.FileName;
-            getComPorts();
         }
 
         private void LbNewVersion_DoubleClick(object sender, EventArgs e)

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruiseSafeCompanion", "CruiseSafeCompanion\CruiseSafeCompanion.csproj", "{7D604FE1-3D46-4690-9146-2EDC1BCBF966}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CruiseSafeCompanion Installer", "CruiseSafeCompanion Installer\CruiseSafeCompanion Installer.vdproj", "{1664A313-C82C-4BD4-A74A-19CAA9E8CB63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{7D604FE1-3D46-4690-9146-2EDC1BCBF966}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D604FE1-3D46-4690-9146-2EDC1BCBF966}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D604FE1-3D46-4690-9146-2EDC1BCBF966}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1664A313-C82C-4BD4-A74A-19CAA9E8CB63}.Debug|Any CPU.ActiveCfg = Debug
+		{1664A313-C82C-4BD4-A74A-19CAA9E8CB63}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
