@@ -76,6 +76,7 @@
             this.lbVersionNo = new System.Windows.Forms.Label();
             this.lbFirmwareDBVersion = new System.Windows.Forms.Label();
             this.cbRiseOnStart = new System.Windows.Forms.CheckBox();
+            this.btReadEEPROM = new System.Windows.Forms.ToolStripButton();
             this.sTool.SuspendLayout();
             this.sStatus.SuspendLayout();
             this.gpPressureLimits.SuspendLayout();
@@ -100,7 +101,8 @@
             this.cbComPorts,
             this.btRefresh,
             this.btUpload,
-            this.btCheckFirmware});
+            this.btCheckFirmware,
+            this.btReadEEPROM});
             this.sTool.Location = new System.Drawing.Point(0, 0);
             this.sTool.Name = "sTool";
             this.sTool.Size = new System.Drawing.Size(448, 25);
@@ -629,6 +631,15 @@
             this.cbRiseOnStart.Text = "Rise on start";
             this.cbRiseOnStart.UseVisualStyleBackColor = true;
             // 
+            // btReadEEPROM
+            // 
+            this.btReadEEPROM.Image = ((System.Drawing.Image)(resources.GetObject("btReadEEPROM.Image")));
+            this.btReadEEPROM.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btReadEEPROM.Name = "btReadEEPROM";
+            this.btReadEEPROM.Size = new System.Drawing.Size(102, 20);
+            this.btReadEEPROM.Text = "Read EEPROM";
+            this.btReadEEPROM.Click += new System.EventHandler(this.btReadEEPROM_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -722,6 +733,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lbFile;
         private System.Windows.Forms.ToolStripStatusLabel lbFileName;
         private System.Windows.Forms.Button btFactoryReset;
+        private System.Windows.Forms.ToolStripButton btReadEEPROM;
     }
 }
 

@@ -26,6 +26,35 @@ namespace CruiseSafeCompanion
                 return "";
         }
 
+        public static string GetDeviceEEPROM(string portName)
+        {
+            try
+            {
+                SerialPort port = new SerialPort(portName);
+                port.BaudRate = 9600;
+                port.Open();
+
+                DateTime timeoutTime = DateTime.Now.AddSeconds(15);
+                string received = "";
+                port.WriteLine("<eeprom?>");
+                while (received.Contains(@"</EEPROM>") == false)
+                {
+                    if (DateTime.Now >= timeoutTime)
+                        throw new TimeoutException("Timeout während der EEPROM-Anfrage");
+
+                    received += port.ReadExisting();
+                }
+
+                port.Close();
+                return received;
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+                return "";
+            }
+        }
+
         public static string GetDeviceVersion(string portName)
         {
             try

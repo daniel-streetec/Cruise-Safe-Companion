@@ -198,6 +198,7 @@ namespace CruiseSafeCompanion
                 btCheckFirmware.Enabled = false;
                 btUpload.Enabled = false;
                 btFactoryReset.Enabled = false;
+                btReadEEPROM.Enabled = false;
 
                 btUpdateDevice.Text = "updating...";
                 btUpdateDevice.Enabled = false;
@@ -219,6 +220,7 @@ namespace CruiseSafeCompanion
                 btUpdateDevice.Enabled = true;
                 btUpload.Enabled = true;
                 btFactoryReset.Enabled = true;
+                btReadEEPROM.Enabled = true;
             });
 
             if (e.Success)
@@ -239,6 +241,7 @@ namespace CruiseSafeCompanion
                 btUpdateDevice.Enabled = false;
                 btUpload.Enabled = false;
                 btFactoryReset.Enabled = false;
+                btReadEEPROM.Enabled = false;
 
                 writeValues();
                 SettingsUploader uploader = new SettingsUploader(cbComPorts.Text, _currentFile);
@@ -248,6 +251,8 @@ namespace CruiseSafeCompanion
                 btUpdateDevice.Enabled = true;
                 btUpload.Enabled = true;
                 btFactoryReset.Enabled = true;
+                btReadEEPROM.Enabled = true;
+
             }
             else
                 MessageBox.Show("Bitte zuerst einen Port auswählen!");
@@ -261,6 +266,8 @@ namespace CruiseSafeCompanion
                 btUpdateDevice.Enabled = false;
                 btUpload.Enabled = false;
                 btFactoryReset.Enabled = false;
+                btReadEEPROM.Enabled = false;
+
 
                 string version = FirmwareUpdater.GetDeviceVersion(cbComPorts.Text);
                 if (version != "")
@@ -289,6 +296,8 @@ namespace CruiseSafeCompanion
                 btUpdateDevice.Enabled = true;
                 btUpload.Enabled = true;
                 btFactoryReset.Enabled = true;
+                btReadEEPROM.Enabled = true;
+
             }
             else
                 MessageBox.Show("Bitte zuerst einen Port auswählen!");
@@ -311,12 +320,45 @@ namespace CruiseSafeCompanion
                 btUpdateDevice.Enabled = false;
                 btUpload.Enabled = false;
                 btFactoryReset.Enabled = false;
+                btReadEEPROM.Enabled = false;
+
 
                 FirmwareUpdater.PerformFactoryReset(cbComPorts.Text);
 
                 btCheckFirmware.Enabled = true;
                 btUpdateDevice.Enabled = true;
                 btUpload.Enabled = true;
+                btReadEEPROM.Enabled = true;
+                btFactoryReset.Enabled = true;
+            }
+            else
+                MessageBox.Show("Bitte zuerst einen Port auswählen!");
+        }
+
+        private void btReadEEPROM_Click(object sender, EventArgs e)
+        {
+            if (cbComPorts.Text != "")
+            {
+                btCheckFirmware.Enabled = false;
+                btUpdateDevice.Enabled = false;
+                btUpload.Enabled = false;
+                btFactoryReset.Enabled = false;
+                btReadEEPROM.Enabled = false;
+
+
+                string EEPROM_XML = FirmwareUpdater.GetDeviceEEPROM(cbComPorts.Text);
+                if(EEPROM_XML != "")
+                {
+                    SaveFileDialog SFD = new SaveFileDialog();
+                    SFD.Filter = "XML-Files (*.XML)|*.XML";
+                    SFD.RestoreDirectory = true;
+                    if (SFD.ShowDialog() == DialogResult.OK)
+                        System.IO.File.WriteAllText(SFD.FileName, EEPROM_XML);
+                }
+                btCheckFirmware.Enabled = true;
+                btUpdateDevice.Enabled = true;
+                btUpload.Enabled = true;
+                btReadEEPROM.Enabled = true;
                 btFactoryReset.Enabled = true;
             }
             else
