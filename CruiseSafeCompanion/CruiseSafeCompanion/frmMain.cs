@@ -97,6 +97,7 @@ namespace CruiseSafeCompanion
         public frmMain()
         {
             InitializeComponent();
+            cbIsPB.Checked = Properties.Settings.Default.isPB;
             checkVersions();
             if(Properties.Settings.Default.ChangeLogToShow != null && Properties.Settings.Default.ChangeLogToShow != "")
             {
@@ -205,7 +206,7 @@ namespace CruiseSafeCompanion
 
                 FirmwareUpdater Updater = new FirmwareUpdater();
                 Updater.UpdateComplete += Updater_UpdateComplete;
-                Updater.UpdateFirmware(cbComPorts.Text);
+                Updater.UpdateFirmware(cbComPorts.Text, cbIsPB.Checked);
             }
             else
                 MessageBox.Show("Bitte zuerst einen Port auswählen!");
@@ -274,6 +275,18 @@ namespace CruiseSafeCompanion
                     lbDeviceVersion.Text = "V" + version.Replace("<VERSION>", "").Replace("</VERSION>", "");
 
                 string config = FirmwareUpdater.GetDeviceConfig(cbComPorts.Text);
+
+                if(config.Contains("<CONFIG>") == false)
+                {
+                    MessageBox.Show("Error communicating, please try again!");
+                    btCheckFirmware.Enabled = true;
+                    btUpdateDevice.Enabled = true;
+                    btUpload.Enabled = true;
+                    btFactoryReset.Enabled = true;
+                    btReadEEPROM.Enabled = true;
+                    return;
+                }
+
                 config = config.ToUpper().Replace("<CONFIG>", "").Replace("</CONFIG>", "").Replace("\r\n","");
                 CurrentFile = new CSC_File();
 
@@ -363,6 +376,12 @@ namespace CruiseSafeCompanion
             }
             else
                 MessageBox.Show("Bitte zuerst einen Port auswählen!");
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.isPB = cbIsPB.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }

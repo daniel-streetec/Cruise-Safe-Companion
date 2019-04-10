@@ -42,6 +42,7 @@
             this.btRefresh = new System.Windows.Forms.ToolStripButton();
             this.btUpload = new System.Windows.Forms.ToolStripButton();
             this.btCheckFirmware = new System.Windows.Forms.ToolStripButton();
+            this.btReadEEPROM = new System.Windows.Forms.ToolStripButton();
             this.sStatus = new System.Windows.Forms.StatusStrip();
             this.lbVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbNewVersion = new System.Windows.Forms.ToolStripStatusLabel();
@@ -76,7 +77,7 @@
             this.lbVersionNo = new System.Windows.Forms.Label();
             this.lbFirmwareDBVersion = new System.Windows.Forms.Label();
             this.cbRiseOnStart = new System.Windows.Forms.CheckBox();
-            this.btReadEEPROM = new System.Windows.Forms.ToolStripButton();
+            this.cbIsPB = new System.Windows.Forms.CheckBox();
             this.sTool.SuspendLayout();
             this.sStatus.SuspendLayout();
             this.gpPressureLimits.SuspendLayout();
@@ -208,6 +209,15 @@
             this.btCheckFirmware.Text = "Check";
             this.btCheckFirmware.Click += new System.EventHandler(this.btCheckFirmware_Click);
             // 
+            // btReadEEPROM
+            // 
+            this.btReadEEPROM.Image = ((System.Drawing.Image)(resources.GetObject("btReadEEPROM.Image")));
+            this.btReadEEPROM.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btReadEEPROM.Name = "btReadEEPROM";
+            this.btReadEEPROM.Size = new System.Drawing.Size(102, 20);
+            this.btReadEEPROM.Text = "Read EEPROM";
+            this.btReadEEPROM.Click += new System.EventHandler(this.btReadEEPROM_Click);
+            // 
             // sStatus
             // 
             this.sStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -215,7 +225,7 @@
             this.lbNewVersion,
             this.lbFile,
             this.lbFileName});
-            this.sStatus.Location = new System.Drawing.Point(0, 428);
+            this.sStatus.Location = new System.Drawing.Point(0, 453);
             this.sStatus.Name = "sStatus";
             this.sStatus.Size = new System.Drawing.Size(448, 22);
             this.sStatus.TabIndex = 1;
@@ -544,6 +554,7 @@
             // 
             // gpFirmware
             // 
+            this.gpFirmware.Controls.Add(this.cbIsPB);
             this.gpFirmware.Controls.Add(this.btFactoryReset);
             this.gpFirmware.Controls.Add(this.btUpdateDevice);
             this.gpFirmware.Controls.Add(this.lbDeviceVersion);
@@ -553,7 +564,7 @@
             this.gpFirmware.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gpFirmware.Location = new System.Drawing.Point(229, 28);
             this.gpFirmware.Name = "gpFirmware";
-            this.gpFirmware.Size = new System.Drawing.Size(211, 159);
+            this.gpFirmware.Size = new System.Drawing.Size(211, 191);
             this.gpFirmware.TabIndex = 14;
             this.gpFirmware.TabStop = false;
             this.gpFirmware.Text = "CS3.0 Firmware";
@@ -561,7 +572,7 @@
             // btFactoryReset
             // 
             this.btFactoryReset.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btFactoryReset.Location = new System.Drawing.Point(6, 123);
+            this.btFactoryReset.Location = new System.Drawing.Point(5, 155);
             this.btFactoryReset.Name = "btFactoryReset";
             this.btFactoryReset.Size = new System.Drawing.Size(199, 30);
             this.btFactoryReset.TabIndex = 100;
@@ -572,7 +583,7 @@
             // btUpdateDevice
             // 
             this.btUpdateDevice.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btUpdateDevice.Location = new System.Drawing.Point(6, 88);
+            this.btUpdateDevice.Location = new System.Drawing.Point(5, 120);
             this.btUpdateDevice.Name = "btUpdateDevice";
             this.btUpdateDevice.Size = new System.Drawing.Size(199, 30);
             this.btUpdateDevice.TabIndex = 99;
@@ -624,27 +635,29 @@
             // 
             this.cbRiseOnStart.AutoSize = true;
             this.cbRiseOnStart.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbRiseOnStart.Location = new System.Drawing.Point(239, 193);
+            this.cbRiseOnStart.Location = new System.Drawing.Point(12, 422);
             this.cbRiseOnStart.Name = "cbRiseOnStart";
             this.cbRiseOnStart.Size = new System.Drawing.Size(116, 23);
             this.cbRiseOnStart.TabIndex = 10;
             this.cbRiseOnStart.Text = "Rise on start";
             this.cbRiseOnStart.UseVisualStyleBackColor = true;
             // 
-            // btReadEEPROM
+            // cbIsPB
             // 
-            this.btReadEEPROM.Image = ((System.Drawing.Image)(resources.GetObject("btReadEEPROM.Image")));
-            this.btReadEEPROM.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btReadEEPROM.Name = "btReadEEPROM";
-            this.btReadEEPROM.Size = new System.Drawing.Size(102, 20);
-            this.btReadEEPROM.Text = "Read EEPROM";
-            this.btReadEEPROM.Click += new System.EventHandler(this.btReadEEPROM_Click);
+            this.cbIsPB.AutoSize = true;
+            this.cbIsPB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbIsPB.Location = new System.Drawing.Point(14, 91);
+            this.cbIsPB.Name = "cbIsPB";
+            this.cbIsPB.Size = new System.Drawing.Size(105, 23);
+            this.cbIsPB.TabIndex = 101;
+            this.cbIsPB.Text = "PB-Version";
+            this.cbIsPB.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 450);
+            this.ClientSize = new System.Drawing.Size(448, 475);
             this.Controls.Add(this.cbRiseOnStart);
             this.Controls.Add(this.gpFirmware);
             this.Controls.Add(this.gpHighPressureAlarm);
@@ -660,6 +673,7 @@
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cruise Safe Companion";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.sTool.ResumeLayout(false);
             this.sTool.PerformLayout();
@@ -734,6 +748,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lbFileName;
         private System.Windows.Forms.Button btFactoryReset;
         private System.Windows.Forms.ToolStripButton btReadEEPROM;
+        private System.Windows.Forms.CheckBox cbIsPB;
     }
 }
 

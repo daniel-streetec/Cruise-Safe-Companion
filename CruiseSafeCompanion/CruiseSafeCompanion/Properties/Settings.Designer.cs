@@ -34,5 +34,17 @@ namespace CruiseSafeCompanion.Properties {
                 this["ChangeLogToShow"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isPB {
+            get {
+                return ((bool)(this["isPB"]));
+            }
+            set {
+                this["isPB"] = value;
+            }
+        }
     }
 }
