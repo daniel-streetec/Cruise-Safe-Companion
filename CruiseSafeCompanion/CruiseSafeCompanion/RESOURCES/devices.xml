@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <device>
+    <name>ATmega328P</name>
+    <signature>1E950F</signature>
+  </device>
+  <device>
+    <name>ATmega328PB</name>
+    <signature>1E9516</signature>
+  </device>
+</root>

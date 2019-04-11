@@ -77,7 +77,6 @@
             this.lbVersionNo = new System.Windows.Forms.Label();
             this.lbFirmwareDBVersion = new System.Windows.Forms.Label();
             this.cbRiseOnStart = new System.Windows.Forms.CheckBox();
-            this.cbIsPB = new System.Windows.Forms.CheckBox();
             this.sTool.SuspendLayout();
             this.sStatus.SuspendLayout();
             this.gpPressureLimits.SuspendLayout();
@@ -554,7 +553,6 @@
             // 
             // gpFirmware
             // 
-            this.gpFirmware.Controls.Add(this.cbIsPB);
             this.gpFirmware.Controls.Add(this.btFactoryReset);
             this.gpFirmware.Controls.Add(this.btUpdateDevice);
             this.gpFirmware.Controls.Add(this.lbDeviceVersion);
@@ -641,17 +639,6 @@
             this.cbRiseOnStart.TabIndex = 10;
             this.cbRiseOnStart.Text = "Rise on start";
             this.cbRiseOnStart.UseVisualStyleBackColor = true;
-            // 
-            // cbIsPB
-            // 
-            this.cbIsPB.AutoSize = true;
-            this.cbIsPB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbIsPB.Location = new System.Drawing.Point(14, 91);
-            this.cbIsPB.Name = "cbIsPB";
-            this.cbIsPB.Size = new System.Drawing.Size(105, 23);
-            this.cbIsPB.TabIndex = 101;
-            this.cbIsPB.Text = "PB-Version";
-            this.cbIsPB.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
@@ -748,7 +735,6 @@
         private System.Windows.Forms.ToolStripStatusLabel lbFileName;
         private System.Windows.Forms.Button btFactoryReset;
         private System.Windows.Forms.ToolStripButton btReadEEPROM;
-        private System.Windows.Forms.CheckBox cbIsPB;
     }
 }
 

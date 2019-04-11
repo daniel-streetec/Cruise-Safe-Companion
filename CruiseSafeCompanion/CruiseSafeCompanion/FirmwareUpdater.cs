@@ -155,7 +155,7 @@ namespace CruiseSafeCompanion
 
         public void UpdateFirmware(string portName, bool isPB)
         {
-            if (isPB)
+            if (!isPB)
                 UpdateFirmwareStd(portName);
             else
                 UpdateFirmwarePB(portName);
@@ -165,8 +165,8 @@ namespace CruiseSafeCompanion
         {
             _portName = portName;
 
-            //Thread T = new Thread(new ThreadStart(T_WORK));
-            Thread T = new Thread(new ThreadStart(T_WORK_PB));
+            Thread T = new Thread(new ThreadStart(T_WORK));
+            //Thread T = new Thread(new ThreadStart(T_WORK_PB));
             T.SetApartmentState(ApartmentState.STA);
             T.Name = "CruiseSafe Updater";
             T.Priority = ThreadPriority.BelowNormal;
@@ -242,10 +242,13 @@ namespace CruiseSafeCompanion
                     avrstdin.Close();
 
                     string returnText = "";
-                    returnText = avrstdout.ReadToEnd();
-                    returnText += avrstderr.ReadToEnd();
+                    //returnText = avrstdout.ReadToEnd();
+                    returnText = avrstderr.ReadToEnd();
 
-                    MessageBox.Show(returnText);
+                    if (!returnText.Contains("bytes of flash verified")) {
+                        Clipboard.SetText(returnText);
+                        throw new Exception("Fehler während des Update-Prozesses. Weitere Informationen zur Sendung an null-bar in der Zwischenablage.");
+                    }
 
                     UpdateComplete?.Invoke(new UpdateCompleteEventArgs(CHANGELOG, VERSION, true));
                 }

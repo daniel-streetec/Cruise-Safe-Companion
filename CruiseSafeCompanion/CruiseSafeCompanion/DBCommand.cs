@@ -21,7 +21,7 @@ namespace CruiseSafeCompanion
         /// <summary>
         /// SQL to get the newest firmware
         /// </summary>
-        public static string GetNewestFirmware(bool forPB) { return "SELECT * FROM FIRM_VERSIONS WHERE for_PB = " + (forPB ? "0" : "1") + " ORDER BY DATE_OF_RELEASE DESC LIMIT 1"; }
+        public static string GetNewestFirmware(bool forPB) { return "SELECT * FROM FIRM_VERSIONS WHERE for_PB = " + (forPB ? "1" : "0") + " ORDER BY DATE_OF_RELEASE DESC LIMIT 1"; }
 
         /// <summary>
         /// SQL to get the newest software

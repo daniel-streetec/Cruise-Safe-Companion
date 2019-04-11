@@ -97,7 +97,6 @@ namespace CruiseSafeCompanion
         public frmMain()
         {
             InitializeComponent();
-            cbIsPB.Checked = Properties.Settings.Default.isPB;
             checkVersions();
             if(Properties.Settings.Default.ChangeLogToShow != null && Properties.Settings.Default.ChangeLogToShow != "")
             {
@@ -206,7 +205,19 @@ namespace CruiseSafeCompanion
 
                 FirmwareUpdater Updater = new FirmwareUpdater();
                 Updater.UpdateComplete += Updater_UpdateComplete;
-                Updater.UpdateFirmware(cbComPorts.Text, cbIsPB.Checked);
+                switch (AVR_Identifier.GetDeviceName(cbComPorts.Text).ToUpper())
+                {
+                    case "ATMEGA328P":
+                        Updater.UpdateFirmware(cbComPorts.Text, false);
+                        break;
+                    case "ATMEGA328PB":
+                        Updater.UpdateFirmware(cbComPorts.Text, true);
+                        break;
+                    default:
+                        MessageBox.Show("Unbekannte Gerätesignatur!\r\n" + AVR_Identifier.GetDeviceSignature(cbComPorts.Text));
+                        break;
+                }
+                
             }
             else
                 MessageBox.Show("Bitte zuerst einen Port auswählen!");
@@ -380,8 +391,6 @@ namespace CruiseSafeCompanion
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Properties.Settings.Default.isPB = cbIsPB.Checked;
-            Properties.Settings.Default.Save();
         }
     }
 }
