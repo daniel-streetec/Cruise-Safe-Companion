@@ -20,7 +20,7 @@ namespace CruiseSafeCompanion
             StreamWriter avrstdin;
 
             string avrdude_exe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RESOURCES", "avrdude.exe");
-            string cmd = "\"{0}\" -carduino -patmega328 -b57600 -P{1}";
+            string cmd = "\"{0}\" -carduino -patmega328 -b38400 -P{1}";
 
             cmd = string.Format(cmd, avrdude_exe, portName);
             ProcessStartInfo psi = new ProcessStartInfo("cmd");

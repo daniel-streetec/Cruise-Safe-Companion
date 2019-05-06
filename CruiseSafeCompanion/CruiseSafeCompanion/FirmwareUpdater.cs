@@ -222,7 +222,7 @@ namespace CruiseSafeCompanion
 
 
                     // 0 => avrdude.exe 1 => avrdude.conf 2 => hex file 3=> COMX
-                    string command = "\"{0}\" -C\"{1}\" -v -patmega328pb -carduino -P{3} -b115200 -D -Uflash:w:\"{2}\":i";
+                    string command = "\"{0}\" -C\"{1}\" -v -patmega328pb -carduino -P{3} -b38400 -D -Uflash:w:\"{2}\":i";
                     command = string.Format(command, avrdude_exe, avrdude_conf, tmpFileName, _portName);
 
                     ProcessStartInfo psI = new ProcessStartInfo("cmd");
@@ -300,7 +300,7 @@ namespace CruiseSafeCompanion
 
 
                     // 0 => avrdude.exe 1 => avrdude.conf 2 => hex file 3=> COMX
-                    string command = "\"{0}\" -C\"{1}\" -v -patmega328p -carduino -P{3} -b57600 -D -Uflash:w:\"{2}\":i";
+                    string command = "\"{0}\" -C\"{1}\" -v -patmega328p -carduino -P{3} -b38400 -D -Uflash:w:\"{2}\":i";
                     command = string.Format(command, avrdude_exe, avrdude_conf, tmpFileName, _portName);
 
                     ProcessStartInfo psI = new ProcessStartInfo("cmd");
