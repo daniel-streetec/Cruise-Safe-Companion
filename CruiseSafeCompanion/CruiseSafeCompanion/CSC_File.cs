@@ -156,6 +156,23 @@ namespace CruiseSafeCompanion
                 _xDocument.Element("FILE").Elements("RISE_ON_START").FirstOrDefault().Value = value.ToString();
             }
         }
+        public bool BtInvert
+        {
+            get
+            {
+                if (_xDocument.Elements("BT_INVERT").Count() == 0)
+                    _xDocument.Root.Add(new XElement("BT_INVERT", false));
+
+                return _xDocument.Element("FILE").Elements("BT_INVERT").FirstOrDefault().Value.ToBoolSafe();
+            }
+            set
+            {
+                if (_xDocument.Elements("BT_INVERT").Count() == 0)
+                    _xDocument.Root.Add(new XElement("BT_INVERT", false));
+
+                _xDocument.Element("FILE").Elements("BT_INVERT").FirstOrDefault().Value = value.ToString();
+            }
+        }
         #endregion
 
         #region constructors
@@ -175,7 +192,8 @@ namespace CruiseSafeCompanion
                         new XElement("ENABLE", false),
                         new XElement("FRONT", 0.0),
                         new XElement("REAR", 0.0)),
-                    new XElement("RISE_ON_START", false))
+                    new XElement("RISE_ON_START", false),
+                    new XElement("BT_INVERT", false))
                 );
         }
 
@@ -239,8 +257,9 @@ namespace CruiseSafeCompanion
             int enHighBeep = (EnableHighBeep ? 1 : 0);
             int enLowBeep = (EnableLowBeep ? 1 : 0);
             int enRiseOnStart = (RiseOnStart ? 1 : 0);
+            int btInvert = (BtInvert ? 1 : 0);
 
-            string s = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}{4:X2}{5:X2}{6:X2}{7:X2}{8:X2}{9:X2}",
+            string s = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}{4:X2}{5:X2}{6:X2}{7:X2}{8:X2}{9:X2}{10:X2}",
                 enLimiter,
                 psiLimiterFront,
                 psiLimiterRear,
@@ -250,7 +269,8 @@ namespace CruiseSafeCompanion
                 enLowBeep,
                 psiLowBeepFront,
                 psiLowBeepRear,
-                enRiseOnStart);
+                enRiseOnStart,
+                btInvert);
 
             int CheckSum = (int)calcChecksum(s);
             s = s + string.Format("{0:X2}", CheckSum);

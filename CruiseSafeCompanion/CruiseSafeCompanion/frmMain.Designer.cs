@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.sTool = new System.Windows.Forms.ToolStrip();
             this.tsbtFile = new System.Windows.Forms.ToolStripDropDownButton();
@@ -77,6 +78,8 @@
             this.lbVersionNo = new System.Windows.Forms.Label();
             this.lbFirmwareDBVersion = new System.Windows.Forms.Label();
             this.cbRiseOnStart = new System.Windows.Forms.CheckBox();
+            this.cbBtInvert = new System.Windows.Forms.CheckBox();
+            this.TT = new System.Windows.Forms.ToolTip(this.components);
             this.sTool.SuspendLayout();
             this.sStatus.SuspendLayout();
             this.gpPressureLimits.SuspendLayout();
@@ -640,11 +643,26 @@
             this.cbRiseOnStart.Text = "Rise on start";
             this.cbRiseOnStart.UseVisualStyleBackColor = true;
             // 
+            // cbBtInvert
+            // 
+            this.cbBtInvert.AutoSize = true;
+            this.cbBtInvert.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbBtInvert.Location = new System.Drawing.Point(134, 422);
+            this.cbBtInvert.Name = "cbBtInvert";
+            this.cbBtInvert.Size = new System.Drawing.Size(150, 23);
+            this.cbBtInvert.TabIndex = 15;
+            this.cbBtInvert.Text = "Schalter negieren";
+            this.TT.SetToolTip(this.cbBtInvert, "Wenn Sie diese Funktion aktivieren, wird die Funktion des Schalters invertiert.\r\n" +
+        "Das bedeutet, dass das System dann mit ausgeschaltetem beziehungsweise nicht ver" +
+        "bundenem Schalter aktiv ist.");
+            this.cbBtInvert.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(448, 475);
+            this.Controls.Add(this.cbBtInvert);
             this.Controls.Add(this.cbRiseOnStart);
             this.Controls.Add(this.gpFirmware);
             this.Controls.Add(this.gpHighPressureAlarm);
@@ -735,6 +753,8 @@
         private System.Windows.Forms.ToolStripStatusLabel lbFileName;
         private System.Windows.Forms.Button btFactoryReset;
         private System.Windows.Forms.ToolStripButton btReadEEPROM;
+        private System.Windows.Forms.CheckBox cbBtInvert;
+        private System.Windows.Forms.ToolTip TT;
     }
 }
 

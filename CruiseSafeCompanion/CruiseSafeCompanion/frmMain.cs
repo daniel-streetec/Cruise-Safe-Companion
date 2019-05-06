@@ -38,6 +38,7 @@ namespace CruiseSafeCompanion
             ncLowAlarmRear.Value = (decimal)CurrentFile.LowBeepRear;
 
             cbRiseOnStart.Checked = CurrentFile.RiseOnStart;
+            cbBtInvert.Checked = CurrentFile.BtInvert;
         }
 
         private void writeValues()
@@ -55,6 +56,7 @@ namespace CruiseSafeCompanion
             CurrentFile.LowBeepRear = (double)ncLowAlarmRear.Value;
 
             CurrentFile.RiseOnStart = cbRiseOnStart.Checked;
+            CurrentFile.BtInvert = cbBtInvert.Checked;
         }
 
         private void checkVersions()
@@ -208,9 +210,11 @@ namespace CruiseSafeCompanion
                 switch (AVR_Identifier.GetDeviceName(cbComPorts.Text).ToUpper())
                 {
                     case "ATMEGA328P":
+                        System.Threading.Thread.Sleep(500);
                         Updater.UpdateFirmware(cbComPorts.Text, false);
                         break;
                     case "ATMEGA328PB":
+                        System.Threading.Thread.Sleep(500);
                         Updater.UpdateFirmware(cbComPorts.Text, true);
                         break;
                     default:
