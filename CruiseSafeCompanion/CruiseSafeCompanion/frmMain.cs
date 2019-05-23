@@ -319,6 +319,7 @@ namespace CruiseSafeCompanion
                 ncLowAlarmRear.Value = HexPsiToDoubleBar(values[8]);
 
                 cbRiseOnStart.Checked = values[9] == "1";
+                cbBtInvert.Checked = values[10] == "1";
 
                 btCheckFirmware.Enabled = true;
                 btUpdateDevice.Enabled = true;
